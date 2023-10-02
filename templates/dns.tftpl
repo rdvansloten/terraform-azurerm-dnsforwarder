@@ -1,0 +1,11 @@
+Install-WindowsFeature -Name DNS -IncludeManagementTools
+
+$masterServer = "${dns_server}"
+$domainList = (
+${domain_list}
+)
+
+foreach($domain in $domainList) {
+  Write-Output "Adding zone $domain with Master Server $masterServer"
+  Add-DnsServerConditionalForwarderZone -Name $domain -MasterServers $masterServer -PassThru
+}
